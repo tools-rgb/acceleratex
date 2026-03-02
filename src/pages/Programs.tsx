@@ -8,6 +8,7 @@ import { CheckCircle, Rocket, Zap, Clock, Users, Wrench, TrendingUp, Briefcase, 
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -70,6 +71,9 @@ function EnquiryDialog({ isOpen, onClose, title }: { isOpen: boolean; onClose: (
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-semibold text-exvia-black">{title}</DialogTitle>
+              <DialogDescription className="sr-only">
+                Enter your contact details and we will reach out to you.
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4 mt-4">
               <div className="space-y-2">

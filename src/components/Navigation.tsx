@@ -6,6 +6,7 @@ import { submitToGoogleSheets } from '@/lib/api';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -160,6 +161,9 @@ export function Navigation() {
                       <>
                         <DialogHeader>
                           <DialogTitle className="text-2xl font-semibold text-exvia-black">Get Started with AccelerateX</DialogTitle>
+                          <DialogDescription className="sr-only">
+                            Fill out the form and we will contact you soon.
+                          </DialogDescription>
                         </DialogHeader>
                         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
                           <div className="space-y-2">

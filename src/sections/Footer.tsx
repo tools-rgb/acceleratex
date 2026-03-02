@@ -10,6 +10,7 @@ import { type ElementType } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -80,6 +81,9 @@ function FreeToolsDialog({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-semibold text-exvia-black">Download Free AI Tools List</DialogTitle>
+              <DialogDescription className="sr-only">
+                Enter your name and WhatsApp number to receive the AI tools list.
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4 mt-4">
               <div className="space-y-2">

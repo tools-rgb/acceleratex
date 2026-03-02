@@ -5,6 +5,7 @@ import { submitToGoogleSheets } from '@/lib/api';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -214,6 +215,9 @@ export function Hero() {
                 <>
                   <DialogHeader>
                     <DialogTitle className="text-2xl font-semibold text-exvia-black">Download Free AI Tools List</DialogTitle>
+                    <DialogDescription className="sr-only">
+                      Enter your details to receive the AI tools list on WhatsApp.
+                    </DialogDescription>
                   </DialogHeader>
                   <form onSubmit={handleSubmit} className="space-y-4 mt-4">
                     <div className="space-y-2">
