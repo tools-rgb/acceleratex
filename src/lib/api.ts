@@ -1,5 +1,5 @@
 // Google Sheets API Integration
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbztwBhXokdHZYPM2Eotqr3DYFE22heL_MMDeRuSTE1W052aLp7uD-tglxXSbwn4CRn_WA/exec';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz6TCIdrobK6WE1o1DXRoKXt2_qe9238IRV4G1sGT369d3r6j8lz_ZO4MMl1C4LrYrtjg/exec';
 
 interface FormSubmissionData {
   formType: 'enquiry' | 'contact' | 'freeTool';
