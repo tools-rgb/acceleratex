@@ -14,39 +14,26 @@ interface FormSubmissionData {
 
 export async function submitToGoogleSheets(data: FormSubmissionData): Promise<{ success: boolean; message: string }> {
   try {
-    // Google Apps Script endpoints frequently don't return CORS headers.
-    // Sending JSON triggers a preflight (OPTIONS) request that will be blocked.
-    // Use a "simple" form POST first (no preflight), and if the browser still blocks
-    // reading the response, fall back to `no-cors` so the submission can still be sent.
-
     const formBody = new URLSearchParams();
     (Object.entries(data) as Array<[string, unknown]>).forEach(([key, value]) => {
       if (value === undefined || value === null) return;
       formBody.set(key, String(value));
     });
 
-    try {
-      const response = await fetch(GOOGLE_SHEETS_URL, {
-        method: 'POST',
-        body: formBody,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    // In production (GitHub Pages/custom domains), Google Apps Script often won't provide
+    // CORS headers, which prevents us from reading the response and causes scary console errors.
+    // We therefore send the request "fire-and-forget".
+    if (import.meta.env.PROD) {
+      // Prefer sendBeacon when available (designed for cross-origin, no-response submissions).
+      if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+        const queued = navigator.sendBeacon(GOOGLE_SHEETS_URL, formBody);
+        if (!queued) {
+          return { success: false, message: 'Unable to submit right now. Please try again.' };
+        }
+        return { success: true, message: 'Submitted successfully.' };
       }
 
-      // If the endpoint returns CORS headers, we can read a JSON response.
-      // If it doesn't, this will throw and we'll fall back.
-      const result = (await response.json()) as { status?: string; message?: string };
-
-      if (result.status === 'success') {
-        return { success: true, message: result.message ?? 'Submitted successfully.' };
-      }
-
-      return { success: false, message: result.message || 'Submission failed' };
-    } catch (corsOrParseError) {
-      // Fallback: still submit the request, but we can't read the response.
-      // This avoids blocking UX on GitHub Pages/custom domains.
+      // Fallback: fetch without CORS. This submits, but we cannot confirm success.
       await fetch(GOOGLE_SHEETS_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -55,6 +42,25 @@ export async function submitToGoogleSheets(data: FormSubmissionData): Promise<{ 
 
       return { success: true, message: 'Submitted successfully.' };
     }
+
+    // In development, attempt a normal fetch so you can actually see failures.
+    const response = await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      body: formBody,
+    });
+
+    if (!response.ok) {
+      return { success: false, message: `Submission failed (HTTP ${response.status}).` };
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const result = (await response.json()) as { status?: string; message?: string };
+      if (result.status === 'success') return { success: true, message: result.message ?? 'Submitted successfully.' };
+      return { success: false, message: result.message || 'Submission failed' };
+    }
+
+    return { success: true, message: 'Submitted successfully.' };
   } catch (error) {
     console.error('Error submitting to Google Sheets:', error);
     return { success: false, message: 'Network error. Please try again.' };
