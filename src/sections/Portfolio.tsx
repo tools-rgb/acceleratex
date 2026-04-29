@@ -16,14 +16,14 @@ function ProjectCard({ project, index, isVisible }: { project: { title: string; 
   return (
     <div
       className={cn(
-        'group cursor-pointer transition-all duration-700 ease-out-quart',
+        'group cursor-pointer transition-all duration-700 ease-out-quart h-full',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       )}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="relative overflow-hidden bg-black rounded-xl p-6 border border-red-500/30 hover:border-red-500 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/10">
+      <div className="relative overflow-hidden bg-black rounded-xl p-6 border border-red-500/30 hover:border-red-500 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/10 h-full flex flex-col">
         {/* Icon */}
-        <div className="w-12 h-12 mb-4 flex items-center justify-center bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-colors duration-300">
+        <div className="w-12 h-12 mb-4 flex items-center justify-center bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-colors duration-300 flex-shrink-0">
           <Icon className="w-6 h-6 text-red-400" />
         </div>
 
@@ -33,7 +33,7 @@ function ProjectCard({ project, index, isVisible }: { project: { title: string; 
         </div>
 
         {/* Project Info */}
-        <div className="space-y-1">
+        <div className="space-y-1 flex-grow">
           <h3 className="text-lg font-semibold text-white group-hover:text-red-100 transition-colors">
             {project.title}
           </h3>

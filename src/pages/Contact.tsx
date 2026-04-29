@@ -156,6 +156,24 @@ export function Contact() {
                       </p>
                     </div>
                   </div>
+
+                  {/* Office Photo */}
+                  <div
+                    className={cn(
+                      'mt-8 transition-all duration-800 ease-out-quart',
+                      headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                    )}
+                    style={{ transitionDelay: '500ms' }}
+                  >
+                    <h3 className="font-semibold text-exvia-black mb-3">Our Office</h3>
+                    <div className="rounded-xl overflow-hidden shadow-lg border border-exvia-border/50">
+                      <img 
+                        src="/images/office-photo.jpg" 
+                        alt="AccelerateX Office" 
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
